@@ -1,0 +1,29 @@
+Because the impulse input was 1.0 (approx 32767 in Q0.15), the impulse response of the FIR equals the coefficients scaled by the input:
+
+Floating coefficient vector: h = [0.05, 0.10, 0.15, 0.20, 0.20, 0.15, 0.10, 0.05]
+
+Impulse outputs (floating) = the same h (when input = 1)
+
+If input is 1.0 (represented by 32767), the printed sample_out integer raw value will be approximately h * 32767 * 2^15 (because coeffs are stored as Q1.15). That product yields large integers; you can normalize in a post-processing script or in MATLAB.
+
+For easier verification in human terms, here are the floating expected impulse outputs (normalized):
+y[0] = 0.05
+y[1] = 0.10
+y[2] = 0.15
+y[3] = 0.20
+y[4] = 0.20
+y[5] = 0.15
+y[6] = 0.10
+y[7] = 0.05
+then zeros afterwards
+
+Step response (floating) (cumulative sums of h):
+t=0: 0.05
+t=1: 0.15
+t=2: 0.30
+t=3: 0.50
+t=4: 0.70
+t=5: 0.85
+t=6: 0.95
+t=7: 1.00
+t>=8: 1.00  (steady-state)
